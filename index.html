@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO Roadmap – Goldfizh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:  #22222D;
+  --c1:  #2B2155;
+  --c2:  #422C9F;
+  --c3:  #5436CE;
+  --c4:  #6331F4;
+  --c5:  #A38DFB;
+  --div: rgba(255,255,255,0.08);
+  --sw:  18%;      /* sidebar width */
+  --bh:  7.2vh;    /* banner height */
+}
+
+html, body {
+  width: 100%; height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: 'Epilogue', system-ui, sans-serif;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════
+   BANNER — full width gradient bar
+══════════════════════════════════════ */
+.banner {
+  height: var(--bh);
+  display: flex;
+  align-items: center;
+  padding: 0 2vw;
+  /* gradient includes sidebar dark zone + 5 column colors */
+  background: linear-gradient(90deg,
+    #17122E  0%,
+    #2B2155  var(--sw),
+    #422C9F  38%,
+    #5436CE  56%,
+    #6331F4  75%,
+    #A38DFB  100%
+  );
+}
+
+.logo {
+  width: var(--sw);
+  display: flex;
+  align-items: center;
+  gap: 0.6vw;
+  flex-shrink: 0;
+}
+
+.logo img { height: calc(var(--bh) * 0.6); width: auto; flex-shrink: 0; }
+.logo a { display: flex; align-items: center; }
+
+.banner-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bl {
+  display: flex;
+  align-items: center;
+  gap: 0.45vw;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+
+.bl-seo  { font-size: clamp(14px, 1.4vw, 26px); color: rgba(255,255,255,.85); }
+.bl-geo  { font-size: clamp(14px, 1.4vw, 26px); color: #fff; }
+.bl-icon { font-size: 1.1em; }
+
+/* ══════════════════════════════════════
+   PAGE — everything below banner
+══════════════════════════════════════ */
+.page {
+  position: relative;
+  height: calc(100vh - var(--bh));
+  overflow: hidden;
+}
+
+.scroll-x {
+  height: 100%;
+}
+
+.scroll-x > div {
+  height: 100%;
+}
+
+/* Column colour stripes: span full page height, left = sidebar end
+   Clip-path diagonal: left≈41% / right≈33% from top of this element  */
+.col-stripes {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: var(--sw); right: 0;
+  background: linear-gradient(90deg,
+    var(--c1)  0%, var(--c1) 20%,
+    var(--c2) 20%, var(--c2) 40%,
+    var(--c3) 40%, var(--c3) 60%,
+    var(--c4) 60%, var(--c4) 80%,
+    var(--c5) 80%, var(--c5) 100%
+  );
+  clip-path: polygon(0% 31%, 100% 20%, 100% 100%, 0% 100%);
+  z-index: 0;
+}
+
+/* ══════════════════════════════════════
+   GRID
+══════════════════════════════════════ */
+.grid {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: grid;
+  grid-template-columns: var(--sw) repeat(5, 1fr);
+  grid-template-rows: 1.8fr repeat(4, 1fr);
+}
+
+/* ── Column header row ── */
+.sid-top { /* empty sidebar cell in header row */ }
+
+.ch {
+  padding: 2.2vh 1.3vw 1.4vh;
+  border-left: 1px solid var(--div);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5vh;
+}
+.ch:first-of-type { border-left: none; }
+
+.lv {
+  font-size: clamp(8px, 0.6vw, 11px);
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(200,197,255,.5);
+  margin-bottom: .3vh;
+}
+
+.t1, .t2, .t3, .t4, .t5 { font-size: clamp(28px, 3.0vw, 58px); }
+
+.ct {
+  font-weight: 900;
+  letter-spacing: -.04em;
+  line-height: 1;
+  color: #fff;
+}
+
+.cs {
+  font-size: clamp(10px, 0.85vw, 15px);
+  font-weight: 400;
+  line-height: 1.45;
+  color: #C8C5FF;
+  opacity: 0.72;
+  margin-top: .4vh;
+}
+
+/* ── Sidebar row headers ── */
+.rh {
+  display: flex;
+  align-items: center;
+  gap: 0.9vw;
+  padding: 0 1.6vw;
+  border-top: 1px solid var(--div);
+}
+
+.ri {
+  font-size: clamp(18px, 1.55vw, 30px);
+  line-height: 1;
+  width: 2.4vw; height: 2.4vw;
+  min-width: 32px; min-height: 32px;
+  background: rgba(255,255,255,.08);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.rn {
+  font-size: clamp(14px, 1.5vw, 28px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: rgba(255,255,255,.9);
+}
+
+/* ── Content cells ── */
+.cell {
+  position: relative;
+  padding: 1.6vh 1.4vw;
+  border-left: 1px solid var(--div);
+  border-top: 1px solid var(--div);
+  overflow: hidden;
+  cursor: default;
+  display: flex;
+  align-items: center;
+}
+
+.cell:nth-child(5n+1) { border-left: none; }
+
+.ct-txt {
+  font-size: clamp(12px, 1.05vw, 17px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: #ffffff;
+  transition: opacity .18s;
+  position: relative; z-index: 1;
+}
+
+/* hover */
+.cell:hover { z-index: 20; }
+.cell:hover::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,.05);
+  pointer-events: none;
+}
+.cell:hover .ct-txt   { opacity: .1; }
+.cell:hover .tip      { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* tooltip */
+.tip {
+  position: absolute; inset: 0;
+  padding: 1.6vh 1.4vw;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity .2s, transform .2s;
+  z-index: 10;
+  display: flex; flex-direction: column; justify-content: center; gap: 0.7vh;
+  background: rgba(238, 236, 250, 0.97);
+  backdrop-filter: none;
+}
+
+.tip-lbl {
+  font-size: clamp(8px, 0.52vw, 10px);
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(80, 55, 160, 0.65);
+}
+
+.tip-txt {
+  font-size: clamp(11px, 0.95vw, 15px);
+  font-weight: 400;
+  line-height: 1.65;
+  color: rgba(25, 20, 55, 0.88);
+}
+
+/* ══════════════════════════════════════
+   MOBILE — alleen ≤768px
+   Desktop (>768px) blijft volledig intact
+══════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Sta scrollen toe op mobile */
+  html, body {
+    height: auto;
+    overflow: auto;
+  }
+
+  /* Banner iets kleiner */
+  :root { --bh: 10vw; --sw: 18%; }
+  .banner { padding: 0 3vw; }
+  .bl-seo, .bl-geo  { font-size: 3.5vw; }
+
+  /* Page hoogte auto (niet meer vh-gebonden) */
+  .page {
+    height: auto;
+    overflow: visible;
+  }
+
+  /* Horizontaal scrollbare wrapper */
+  .scroll-x {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Grid: vaste brede px-waarde → scrollbaar */
+  .grid {
+    width: 720px;
+    height: auto;
+    grid-template-rows: auto repeat(4, 88px);
+  }
+
+  /* Kleurstrepen meeschalen */
+  .col-stripes {
+    width: 720px;
+    height: 100%;
+  }
+
+  /* Kolomkoppen */
+  .ch  { padding: 8px 8px 6px; gap: 3px; }
+  .ct  { font-size: 18px; }
+  .lv  { font-size: 8px; letter-spacing: .12em; }
+  .cs  { display: none; }
+
+  /* Sidebar: alleen emoji */
+  .rn  { display: none; }
+  .rh  { justify-content: center; padding: 0 4px; }
+  .ri  { width: 30px; height: 30px; min-width: 30px; min-height: 30px; font-size: 15px; }
+
+  /* Cellen: alleen term vóór dubbele punt */
+  .cell    { padding: 6px; align-items: center; justify-content: center; }
+  .ct-txt  { font-size: 10px; text-align: center; font-weight: 600; line-height: 1.4; }
+  .ct-txt .desc { display: none; }
+  .ct-txt .term { display: block; }
+
+  /* Tooltip */
+  .tip     { padding: 8px; }
+  .tip-lbl { font-size: 8px; }
+  .tip-txt { font-size: 10px; line-height: 1.5; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ BANNER ══ -->
+<header class="banner">
+  <div class="logo">
+    <a href="https://www.goldfizh.nl" target="_blank" rel="noopener">
+      <img src="data:image/png;base64,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" alt="Goldfizh">
+    </a>
+  </div>
+  <div class="banner-right">
+    <span class="bl bl-seo"><span class="bl-icon">🔍</span> SEO</span>
+    <span class="bl bl-geo"><span class="bl-icon">⭐</span> AEO/GEO</span>
+  </div>
+</header>
+
+<!-- ══ PAGE ══ -->
+<div class="page">
+<div class="scroll-x">
+  <div style="position:relative;">
+
+  <!-- Column colour stripes with diagonal -->
+  <div class="col-stripes"></div>
+
+  <!-- Grid -->
+  <div class="grid">
+
+    <!-- Header row -->
+    <div class="sid-top"></div>
+
+    <div class="ch">
+      <div class="lv">Level 1</div>
+      <div class="ct t1">Keywords</div>
+      <div class="cs">On-page keyword SEO</div>
+    </div>
+    <div class="ch">
+      <div class="lv">Level 2</div>
+      <div class="ct t2">Answers</div>
+      <div class="cs">Beginnen met oriëntatie rond antwoorden</div>
+    </div>
+    <div class="ch">
+      <div class="lv">Level 3</div>
+      <div class="ct t3">Context</div>
+      <div class="cs">Systematisch creëren van antwoorden en structureren van de site</div>
+    </div>
+    <div class="ch">
+      <div class="lv">Level 4</div>
+      <div class="ct t4">Expertise</div>
+      <div class="cs">Optimaliseren voor AIO als thought leader binnen je markt</div>
+    </div>
+    <div class="ch">
+      <div class="lv">Level 5</div>
+      <div class="ct t5">Source</div>
+      <div class="cs">Volledige integratie en standaard in ecosysteem van AI's</div>
+    </div>
+
+    <!-- ── ROW 1 · Content ── -->
+    <div class="rh">
+      <span class="ri">✦</span>
+      <span class="rn">Content</span>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">SEO-content: artikelen gericht op grote zoekwoorden</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Schrijf artikelen rondom de zoekwoorden waar jouw doelgroep actief op zoekt. Gebruik een zoekwoordtool (zoals Google Keyword Planner of Semrush) om te bepalen welke termen het meeste volume hebben, en verwerk die focus-zoekwoorden in je titel, tussenkoppen en openingszin.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Zoekintentie: antwoordgerichte content gefocust op gebruiker</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Nu je op de juiste zoekwoorden schrijft, draait het om WAT de zoeker écht wil weten. Schrijf niet om het zoekwoord, maar om de vraag erachter. Begin je artikel altijd met het directe antwoord — sla de wollige intro over. Zo scoor je niet alleen in Google, maar ook in AI-antwoorden.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Pillar content: gestructureerde antwoordclusters op vragen én propositie(s)</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Met antwoordgerichte content op orde, bouw je nu een samenhangende structuur. Kies een hoofdthema (je pillar) en schrijf daarbinnen alle deelvragen én jouw propositie uit. Die pagina's linken slim naar elkaar, waardoor Google én AI jou als dé bron ziet op dit onderwerp.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Deep-dive content: creëer echte waarde met unieke data, inzichten en helpful tooling</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Je pillar-structuur staat — nu maak je het onkopieerbaar. Voeg eigen data toe (een onderzoek, benchmark of enquête), bouw een handige tool of deel inzichten vanuit jouw praktijkervaring. Dit is de content die anderen citeren én die AI niet elders vindt.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Erkende kennisbank: unieke onderzoeken met validatie eigen, erkende vakexperts</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Het eindstation van content: jouw merk wordt de vanzelfsprekende bron voor iedereen die iets wil weten over jouw vakgebied. Dat bereik je door originele onderzoeken te publiceren én die te laten valideren door erkende experts. Zo verankert je naam als autoriteit — in vakbladen, bij AI én in het hoofd van je doelgroep.</div></div>
+    </div>
+
+    <!-- ── ROW 2 · Techniek ── -->
+    <div class="rh">
+      <span class="ri">⚙️</span>
+      <span class="rn">Techniek</span>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">On-page SEO: meta titles, headings, alt-tekst etc. optimaliseren</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">De basis van technische vindbaarheid: geef elke pagina een unieke meta-titel met het zoekwoord erin, gebruik een heldere koppen-structuur (H1, H2, H3) en beschrijf afbeeldingen met alt-teksten. Dit zijn de labels die Google — en steeds vaker AI — gebruikt om te begrijpen waar jouw pagina over gaat.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Technische SEO: snelheid, indexatie en crawlability optimaliseren</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Nu je on-page elementen kloppen, zorg je dat Google en AI jouw site ook daadwerkelijk kunnen bereiken. Controleer of je pagina's in je sitemap staan, los technische fouten op via Search Console en zorg dat je site snel laadt — want trage sites worden minder goed gecrawld én minder vaak door AI gebruikt.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Entity SEO: merkassociaties leggen via o.a. interne linkbuilding en structured data</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Nu Google je site goed begrijpt, koppel je jouw merk aan specifieke thema's. Dat doe je via structured data (je geeft formeel aan waarvoor je staat), een logisch intern linkpatroon én aanwezigheid op plekken als Wikipedia of brancheverenigingen. AI-modellen leren zo: "dit merk = expert op dit gebied".</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">SXO: user testing, UX en CRO voor gebruiksvriendelijke, schaalbare templates</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Vindbaarheid en gebruiksvriendelijkheid gaan nu hand in hand. Test hoe echte bezoekers je site gebruiken, optimaliseer zodat mensen ook converteren (CRO), en bouw schaalbare templates die je eenvoudig uitrolt. Google beloont pagina's die bezoekers écht helpen — en dat zie je terug in je rankings.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">AI-integratie: live (data-)feeds voor agents via API en MCP's</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Het eindstation van techniek: jouw systemen praten direct met AI. Via een API-koppeling kunnen AI-assistenten realtime gegevens bij jou ophalen — zoals productbeschikbaarheid, prijzen of content. Zo word je niet alleen gevonden door AI, maar ook actief gebruikt als databron.</div></div>
+    </div>
+
+    <!-- ── ROW 3 · Autoriteit ── -->
+    <div class="rh">
+      <span class="ri">🥇</span>
+      <span class="rn">Autoriteit</span>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Linkbuilding: backlinks inkopen via derden</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Links van andere websites naar de jouwe zijn voor Google een signaal van vertrouwen. Begin met partnerwebsites, branchegidsen en gespecialiseerde linkbuilding-partijen. Hoe meer relevante, betrouwbare sites naar jou linken, hoe hoger je domeinautoriteit — en hoe beter je rankt.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Merkfundament: optimaliseren van auteurs, reviews en social proof op basis van E.E.A.T.</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Met linkbuilding op gang, bouw je nu aan de geloofwaardigheid van je merk zelf. Google en AI beoordelen wie er achter de content zit. Voeg auteurspagina's toe aan je artikelen, verzamel reviews op Trustpilot of Google en zorg dat je expertise en track record zichtbaar zijn op je site.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Digital PR: validatie merkassociaties via social, derden en communities</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Nu je merkfundament staat, versterk je de associaties buiten je eigen site. Zorg dat jouw naam wordt vermeld op externe platforms — in vakblogs, nieuwssites, LinkedIn-publicaties en communities. Elke vermelding op een betrouwbaar platform versterkt jouw reputatie bij zowel Google als AI-modellen.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Thought leader: visuele storytelling over kanalen heen om expertstatus aan merk te koppelen</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Je bent nu zichtbaar — de volgende stap is onmisbaar worden. Deel consistent jouw visie en expertise via video, infographics, webinars of longreads, over meerdere kanalen. Mensen én AI leren zo: dit merk heeft niet alleen kennis, maar deelt die ook actief en begrijpelijk.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Marktleider: voorkeursbron LLM's voor aanbevelingen en citaten</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Het eindresultaat: AI noemt jou automatisch als aanbeveling wanneer iemand vraagt naar een oplossing in jouw vakgebied. Dat bereik je doordat alle vorige stappen samen een onbetwistbare reputatie opbouwen. Monitor actief of ChatGPT, Gemini en Perplexity jou al noemen — en zo niet, welke stap nog ontbreekt.</div></div>
+    </div>
+
+    <!-- ── ROW 4 · Meetbaarheid ── -->
+    <div class="rh">
+      <span class="ri">📊</span>
+      <span class="rn">Meetbaarheid</span>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Search Console: rankings op specifieke zoekwoorden en kliks</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">De basis van meten: koppel Google Search Console aan je site en bekijk wekelijks op welke zoekwoorden je zichtbaar bent, hoe hoog je rankt en hoeveel mensen ook echt doorklikken. Dit is je startpunt om te begrijpen wat werkt en waar nog kansen liggen.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Semrush/Ahrefs: rankings op relevante featured snippets, PAA en AIO's</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Nu je basisrankings inzichtelijk zijn, kijk je verder. Met tools als Semrush of Ahrefs zie je of jij wordt uitgelicht als featured snippet, verschijnt in de "Mensen vragen ook"-box of wordt opgenomen in AI Overviews. Dit zijn de posities die de meeste aandacht trekken — ook als mensen niet doorklikken.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">AI Search: citaties, kliks en bot-activiteit via LLMs en agents. Focus op conversies</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Je meet nu ook buiten Google. Gebruik tools als Profound of Otterly om te zien of AI-tools jouw site citeren. Koppel dit aan je conversies: worden mensen die via AI binnenkomen ook daadwerkelijk klant? Zo maak je de ROI van GEO zichtbaar — en weet je welke content het beste werkt.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Share of search: meten marktaandeel in vergelijking met concurrentie</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Je kijkt nu niet meer alleen naar jouw eigen cijfers, maar naar je positie in de markt. Hoeveel procent van alle zoekopdrachten in jouw categorie gaan naar jou versus concurrenten? Dat is je "share of search" — een sterke voorspeller van marktaandeel. Vraag ook aan AI-tools wie ze aanbevelen bij jouw kernvragen.</div></div>
+    </div>
+    <div class="cell">
+      <div class="ct-txt">Zero-click attributie: impact op bedrijfsresultaat voor volledige ROI</div>
+      <div class="tip"><div class="tip-lbl">Hoe</div><div class="tip-txt">Het eindstation van meten: je kunt nu aantonen wat al je GEO-inspanningen opleveren, ook zonder klikken. Meet hoe vaak jouw merk direct wordt gezocht (branded search), vraag in formulieren "Hoe heb je ons gevonden?" en combineer dit met omzetdata. Zo bewijs je de volledige ROI — ook van zichtbaarheid die onzichtbaar begon.</div></div>
+    </div>
+
+  </div><!-- /grid -->
+  </div><!-- /relative wrapper -->
+</div><!-- /scroll-x -->
+</div><!-- /page -->
+
+<script>
+  // Split cell text into <span class="term"> and <span class="desc">
+  // so CSS can hide .desc on mobile while keeping .term visible
+  document.querySelectorAll('.ct-txt').forEach(el => {
+    const text = el.textContent.trim();
+    const idx = text.indexOf(': ');
+    if (idx > -1) {
+      el.innerHTML =
+        `<span class="term">${text.slice(0, idx)}</span>` +
+        `<span class="desc">: ${text.slice(idx + 2)}</span>`;
+    }
+  });
+</script>
+
+</body>
+</html>
