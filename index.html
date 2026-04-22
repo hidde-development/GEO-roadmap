@@ -320,6 +320,134 @@ html, body {
   .tip-lbl { font-size: 8px; }
   .tip-txt { font-size: 10px; line-height: 1.5; }
 }
+
+/* ══════════════════════════════════════
+   BANNER BUTTONS — fullscreen & embed
+══════════════════════════════════════ */
+.banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5vw;
+  margin-left: auto;
+}
+
+.btn-icon {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4vw;
+  padding: 0.4vh 0.8vw;
+  font-family: 'Epilogue', system-ui, sans-serif;
+  font-size: clamp(10px, 0.75vw, 13px);
+  font-weight: 600;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  transition: background .15s, border-color .15s;
+}
+.btn-icon:hover { background: rgba(255,255,255,.22); border-color: rgba(255,255,255,.4); }
+.btn-icon svg { width: 1em; height: 1em; flex-shrink: 0; }
+
+/* ══════════════════════════════════════
+   EMBED MODAL
+══════════════════════════════════════ */
+.embed-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+.embed-overlay.open { display: flex; }
+
+.embed-card {
+  background: #1e1b2e;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 16px;
+  padding: 2rem;
+  width: min(92vw, 560px);
+  position: relative;
+  color: #fff;
+  font-family: 'Epilogue', system-ui, sans-serif;
+}
+.embed-card h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: .5rem;
+  letter-spacing: -.02em;
+}
+.embed-card p {
+  font-size: .82rem;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.embed-pre {
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: .9rem 1rem;
+  font-size: .72rem;
+  font-family: 'Menlo', 'Monaco', monospace;
+  color: #C8C5FF;
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  user-select: all;
+}
+.embed-actions { display: flex; gap: .6rem; }
+.btn-copy {
+  background: #6633EE;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Epilogue', system-ui, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  padding: .55rem 1.2rem;
+  transition: background .15s;
+}
+.btn-copy:hover { background: #7744ff; }
+.btn-copy.copied { background: #22c55e; }
+.btn-close-modal {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  font-family: 'Epilogue', system-ui, sans-serif;
+  font-size: .82rem;
+  font-weight: 600;
+  padding: .55rem 1rem;
+  transition: background .15s;
+}
+.btn-close-modal:hover { background: rgba(255,255,255,.15); }
+.embed-x {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.4);
+  cursor: pointer;
+  font-size: 1.3rem;
+  line-height: 1;
+  padding: .2rem .4rem;
+  transition: color .15s;
+}
+.embed-x:hover { color: #fff; }
+
+@media (max-width: 768px) {
+  .btn-icon span { display: none; }
+  .btn-icon { padding: 0.5vh 1.5vw; }
+}
 </style>
 </head>
 <body>
@@ -334,6 +462,20 @@ html, body {
   <div class="banner-right">
     <span class="bl bl-seo"><span class="bl-icon">🔍</span> SEO</span>
     <span class="bl bl-geo"><span class="bl-icon">⭐</span> AEO/GEO</span>
+    <div class="banner-actions">
+      <button class="btn-icon" id="btn-fullscreen" title="Volledig scherm">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M1 6V1h5M10 1h5v5M15 10v5h-5M6 15H1v-5"/>
+        </svg>
+        <span>Volledig scherm</span>
+      </button>
+      <button class="btn-icon" id="btn-embed" title="Embed op jouw website">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 4L1 8l4 4M11 4l4 4-4 4"/>
+        </svg>
+        <span>Embed</span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -486,9 +628,33 @@ html, body {
 </div><!-- /scroll-x -->
 </div><!-- /page -->
 
+
+
+
+<!-- ══ EMBED MODAL ══ -->
+<div class="embed-overlay" id="embed-overlay">
+  <div class="embed-card">
+    <button class="embed-x" id="embed-x">&#x2715;</button>
+    <h3>Embed op jouw website</h3>
+    <p>Plak dit HTML-blok in een Custom HTML-component in WordPress, Webflow of een andere CMS.</p>
+    <div class="embed-pre" id="embed-code"><!-- GEO Roadmap – Goldfizh embed -->
+<div style="position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;box-shadow:0 4px 32px rgba(0,0,0,.18);">
+  <iframe
+    src="https://geo-roadmap-eight.vercel.app/"
+    style="position:absolute;inset:0;width:100%;height:100%;border:none;"
+    loading="lazy"
+    allowfullscreen>
+  </iframe>
+</div></div>
+    <div class="embed-actions">
+      <button class="btn-copy" id="btn-copy">Kopieer code</button>
+      <button class="btn-close-modal" id="btn-close-modal">Sluiten</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  // Split cell text into <span class="term"> and <span class="desc">
-  // so CSS can hide .desc on mobile while keeping .term visible
+  // ── Text splitter ──────────────────────────────────────────
   document.querySelectorAll('.ct-txt').forEach(el => {
     const text = el.textContent.trim();
     const idx = text.indexOf(': ');
@@ -497,6 +663,55 @@ html, body {
         `<span class="term">${text.slice(0, idx)}</span>` +
         `<span class="desc">: ${text.slice(idx + 2)}</span>`;
     }
+  });
+
+  // ── Fullscreen ─────────────────────────────────────────────
+  const btnFs = document.getElementById('btn-fullscreen');
+  const iconEnter = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 6V1h5M10 1h5v5M15 10v5h-5M6 15H1v-5"/></svg>`;
+  const iconExit  = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v5H1M15 6h-5V1M10 15v-5h5M1 10h5v5"/></svg>`;
+
+  btnFs.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  });
+
+  document.addEventListener('fullscreenchange', () => {
+    const label = btnFs.querySelector('span');
+    if (document.fullscreenElement) {
+      btnFs.innerHTML = iconExit + '<span>Verlaat scherm</span>';
+    } else {
+      btnFs.innerHTML = iconEnter + '<span>Volledig scherm</span>';
+    }
+  });
+
+  // ── Embed modal ────────────────────────────────────────────
+  const overlay   = document.getElementById('embed-overlay');
+  const btnEmbed  = document.getElementById('btn-embed');
+  const btnClose  = document.getElementById('btn-close-modal');
+  const embedX    = document.getElementById('embed-x');
+  const btnCopy   = document.getElementById('btn-copy');
+  const embedCode = document.getElementById('embed-code');
+
+  const openModal  = () => overlay.classList.add('open');
+  const closeModal = () => overlay.classList.remove('open');
+
+  btnEmbed.addEventListener('click', openModal);
+  btnClose.addEventListener('click', closeModal);
+  embedX.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+  btnCopy.addEventListener('click', () => {
+    navigator.clipboard.writeText(embedCode.textContent.trim()).then(() => {
+      btnCopy.textContent = '✓ Gekopieerd!';
+      btnCopy.classList.add('copied');
+      setTimeout(() => {
+        btnCopy.textContent = 'Kopieer code';
+        btnCopy.classList.remove('copied');
+      }, 2000);
+    });
   });
 </script>
 
