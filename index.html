@@ -134,7 +134,7 @@ html, body {
   border-left: 1px solid var(--div);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 0.5vh;
 }
 .ch:first-of-type { border-left: none; }
@@ -237,7 +237,7 @@ html, body {
   transition: opacity .2s, transform .2s;
   z-index: 10;
   overflow-y: auto;
-  display: flex; flex-direction: column; justify-content: center; gap: 0.7vh;
+  display: flex; flex-direction: column; justify-content: flex-start; gap: 0.7vh;
   background: rgba(238, 236, 250, 0.97);
   backdrop-filter: none;
 }
@@ -461,8 +461,8 @@ html, body {
     </a>
   </div>
   <div class="banner-right">
-    <span class="bl bl-seo"><span class="bl-icon">🔍</span> SEO</span>
-    <span class="bl bl-geo"><span class="bl-icon">⭐</span> AEO/GEO</span>
+    <span class="bl bl-seo">SEO</span>
+    <span class="bl bl-geo"><span class="bl-icon" style="font-weight:400;opacity:.7;">→</span> GEO-strategie</span>
     <div class="banner-actions">
       <button class="btn-icon" id="btn-fullscreen" title="Volledig scherm">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
