@@ -134,8 +134,9 @@ html, body {
   border-left: 1px solid var(--div);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 0.5vh;
+  overflow: hidden;
 }
 .ch:first-of-type { border-left: none; }
 
@@ -164,6 +165,9 @@ html, body {
   color: #C8C5FF;
   opacity: 0.72;
   margin-top: .4vh;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── Sidebar row headers ── */
